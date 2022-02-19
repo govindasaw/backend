@@ -3,6 +3,8 @@
  */
 package com.example.controller;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
@@ -37,7 +39,8 @@ public class UserController {
 	public ResponseEntity<?> saveUsers(@RequestParam(value = "files") MultipartFile[] files) {
 		for (MultipartFile file : files) {
 			try {
-				userService.saveUsers(file);
+				BufferedReader br = new BufferedReader(new InputStreamReader(file.getInputStream()));
+				userService.saveUsers(br);
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				logger.error(e.getMessage());
@@ -49,17 +52,17 @@ public class UserController {
 	}
 
 	@GetMapping(value = "/users", produces = "application/json")
-	public ResponseEntity<?> findAllUsers() {
-		return (ResponseEntity<?>) userService.findAllUsers();
+	public CompletableFuture<ResponseEntity<?>> findAllUsers() {
+		return userService.findAllUsers().thenApply(ResponseEntity::ok);
 	}
 
-//	@GetMapping(value = "/getUsersByThread", produces = "application/json")
-//	public ResponseEntity<?> getUsers() {
-//		CompletableFuture<List<User>> users1 = userService.findAllUsers();
-//		CompletableFuture<List<User>> users2 = userService.findAllUsers();
-//		CompletableFuture<List<User>> users3 = userService.findAllUsers();
-//		CompletableFuture.allOf(users1, users2, users3).join();
-//		return ResponseEntity.status(HttpStatus.OK).build();
-//	}
+	@GetMapping(value = "/getUsersByThread", produces = "application/json")
+	public ResponseEntity<?> getUsers() {
+		CompletableFuture<List<User>> users1 = userService.findAllUsers();
+		CompletableFuture<List<User>> users2 = userService.findAllUsers();
+		CompletableFuture<List<User>> users3 = userService.findAllUsers();
+		CompletableFuture.allOf(users1, users2, users3).join();
+		return ResponseEntity.status(HttpStatus.OK).build();
+	}
 
 }
