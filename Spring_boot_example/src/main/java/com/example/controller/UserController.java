@@ -4,7 +4,9 @@
 package com.example.controller;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
@@ -37,16 +39,18 @@ public class UserController {
 
 	@PostMapping(value = "/users", consumes = { MediaType.MULTIPART_FORM_DATA_VALUE }, produces = "application/json")
 	public ResponseEntity<?> saveUsers(@RequestParam(value = "files") MultipartFile[] files) {
-		for (MultipartFile file : files) {
+
+		Arrays.asList(files).forEach(obj -> {
 			try {
-				BufferedReader br = new BufferedReader(new InputStreamReader(file.getInputStream()));
-				userService.saveUsers(br);
-			} catch (Exception e) {
+//				BufferedReader br = new BufferedReader(new InputStreamReader(obj.getInputStream()));
+				userService.saveUsers(new BufferedReader(new InputStreamReader(obj.getInputStream())));
+			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				logger.error(e.getMessage());
-				return ResponseEntity.status(HttpStatus.NOT_IMPLEMENTED).build();
+			} catch (Exception e) {
+				logger.error(e.getMessage());
 			}
-		}
+		});
 		return ResponseEntity.status(HttpStatus.CREATED).build();
 
 	}
