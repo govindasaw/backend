@@ -1,11 +1,11 @@
 /**
  * 
  */
-package com.example.repository;
+package com.example.repository.user;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.example.model.User;
+import com.example.model.user.User;
 
 /**
  * @author Govin

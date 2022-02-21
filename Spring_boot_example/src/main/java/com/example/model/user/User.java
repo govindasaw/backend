@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.example.model;
+package com.example.model.user;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
