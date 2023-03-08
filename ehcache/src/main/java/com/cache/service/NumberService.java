@@ -7,7 +7,7 @@ import java.math.BigDecimal;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.CachePut;
 import org.springframework.stereotype.Service;
 
 /**
@@ -17,10 +17,10 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class NumberService {
-	
+
 	final static private Logger logger = LogManager.getLogger(NumberService.class.getName());
 
-	@Cacheable(value = "squareCache", key = "#number", condition = "#number>10")
+	@CachePut("posts")
 	public BigDecimal square(Long number) {
 		BigDecimal square = BigDecimal.valueOf(number).multiply(BigDecimal.valueOf(number));
 		logger.info("square of {} is {}", number, square);

@@ -1,18 +1,31 @@
 package com.vault.vault;
 
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
+
+import lombok.extern.slf4j.Slf4j;
 
 @SpringBootApplication
-public class VaultApplication {
+@EnableConfigurationProperties(MyConfiguration.class)
+@Slf4j
+public class VaultApplication implements CommandLineRunner {
+
+	private final MyConfiguration config;
+
+	public VaultApplication(MyConfiguration config) {
+		this.config = config;
+	}
 
 	public static void main(String[] args) {
-		ConfigurableApplicationContext context = SpringApplication.run(VaultApplication.class, args);
-		Secretss secrets = context.getBean(Secretss.class);
-		System.out.println("Login: " + secrets.username);
-//		System.out.println("Password: " + secrets.getPassword());
+		SpringApplication.run(VaultApplication.class, args);
+	}
 
+	@Override
+	public void run(String... args) throws Exception {
+		// TODO Auto-generated method stub
+		log.info("Key : " + config.getKey());
 	}
 
 }

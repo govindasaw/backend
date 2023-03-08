@@ -11,6 +11,8 @@ import org.springframework.stereotype.Service;
 import com.saw.model.Book;
 import com.saw.model.MyEmployee;
 import com.saw.model.Pen;
+import com.saw.model.collections.Address;
+import com.saw.model.collections.Employee;
 import com.saw.repository.MyEmployeeRepository;
 import com.saw.repository.MyProductBookRepository;
 import com.saw.repository.MyProductPenRepository;
@@ -51,10 +53,10 @@ public class MyService {
 	}
 
 	public void saveProduct() {
-		Pen p = new Pen(1, "Pen", "Red");
+		Pen p = new Pen(3, "Pen", "Red");
 		penRepo.save(p);
 
-		Book b = new Book(2, "Java Book", "ABC");
+		Book b = new Book(4, "Java Book", "ABC");
 		bookRepo.save(b);
 
 	}
@@ -62,6 +64,22 @@ public class MyService {
 	public void getBookAndPen() {
 		penRepo.findAll().forEach(System.out::print);;
 		bookRepo.findAll().forEach(System.out::print);;
+	}
+	
+	public void  saveEmployee_1() {
+		Employee e1=new Employee();    
+	    e1.setName("Ravi Malik");    
+	    e1.setEmail("ravi@gmail.com");    
+	        
+	    Address address1=new Address();    
+	    address1.setAddressLine1("G-21,Lohia nagar");    
+	    address1.setCity("Ghaziabad");    
+	    address1.setState("UP");    
+	    address1.setCountry("India");    
+	    address1.setPincode(201301);    
+	        
+	    e1.setAddress(address1);    
+	    address1.setEmployee(e1);   
 	}
 
 }
